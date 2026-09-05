@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hotel Travesseiro Nervoso: uma experiência de descanso, conforto e hospitalidade.">
+    <title>Hotel Travesseiro Nervoso | Sua pausa começa aqui</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+        :root {
+            --ink: #20312f;
+            --muted: #66726e;
+            --deep: #294744;
+            --deep-2: #183532;
+            --sage: #dce8df;
+            --sage-light: #eff5f0;
+            --cream: #faf9f5;
+            --white: #ffffff;
+            --line: #dfe7e1;
+            --accent: #bc8a58;
+            --shadow: 0 22px 60px rgba(32, 49, 47, 0.10);
+            --radius-lg: 28px;
+            --radius-md: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--cream);
+            color: var(--ink);
+            font-family: 'DM Sans', Arial, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        body.menu-open { overflow: hidden; }
+        a { color: inherit; text-decoration: none; }
+        button, input, select { font: inherit; }
+        button { cursor: pointer; }
+        img { display: block; max-width: 100%; }
+        .container { width: min(1160px, calc(100% - 48px)); margin: 0 auto; }
+        .eyebrow {
+            color: var(--accent);
+            font-size: .74rem;
+            font-weight: 700;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+        }
+        .section-heading { max-width: 650px; margin-bottom: 42px; }
+        .section-heading h2 {
+            color: var(--deep-2);
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2.1rem, 4vw, 3.4rem);
+            font-weight: 600;
+            letter-spacing: -.03em;
+            line-height: 1.12;
+            margin-top: 12px;
+        }
+        .section-heading p { color: var(--muted); margin-top: 16px; max-width: 540px; }
+
+        .site-header {
+            background: rgba(250, 249, 245, .94);
+            border-bottom: 1px solid rgba(223, 231, 225, .85);
+            position: relative;
+            z-index: 20;
+        }
+        .nav-wrap { align-items: center; display: flex; height: 86px; justify-content: space-between; }
+        .brand { align-items: center; display: inline-flex; gap: 12px; }
+        .brand img { height: 48px; object-fit: contain; width: 48px; }
+        .brand-text { display: flex; flex-direction: column; line-height: 1.05; }
+        .brand-name { color: var(--deep-2); font-family: 'Playfair Display', Georgia, serif; font-size: 1.1rem; font-weight: 700; }
+        .brand-tagline { color: var(--muted); font-size: .64rem; letter-spacing: .09em; margin-top: 5px; text-transform: uppercase; }
+        .main-nav { align-items: center; display: flex; gap: 30px; }
+        .main-nav a { color: #52625f; font-size: .88rem; font-weight: 600; transition: color .2s ease; }
+        .main-nav a:hover, .main-nav a:focus-visible { color: var(--accent); }
+        .nav-cta, .hero-cta, .primary-button {
+            background: var(--deep);
+            border: 1px solid var(--deep);
+            border-radius: 999px;
+            color: var(--white);
+            display: inline-flex;
+            font-size: .84rem;
+            font-weight: 700;
+            justify-content: center;
+            padding: 13px 22px;
+            transition: background .2s ease, border-color .2s ease, transform .2s ease;
+        }
+        .nav-cta:hover, .hero-cta:hover, .primary-button:hover { background: var(--deep-2); border-color: var(--deep-2); transform: translateY(-2px); }
+        .menu-toggle { background: none; border: 0; display: none; height: 42px; padding: 9px; width: 42px; }
+        .menu-toggle span { background: var(--deep); display: block; height: 2px; margin: 5px 0; transition: transform .2s ease, opacity .2s ease; width: 24px; }
+
+        .hero { padding: 58px 0 76px; }
+        .hero-grid { align-items: center; display: grid; gap: clamp(40px, 7vw, 100px); grid-template-columns: .88fr 1.12fr; }
+        .hero-copy h1 { color: var(--deep-2); font-family: 'Playfair Display', Georgia, serif; font-size: clamp(3.1rem, 6vw, 5.8rem); font-weight: 600; letter-spacing: -.055em; line-height: .99; margin: 16px 0 24px; max-width: 570px; }
+        .hero-copy p { color: var(--muted); font-size: 1.08rem; max-width: 450px; }
+        .hero-actions { align-items: center; display: flex; flex-wrap: wrap; gap: 20px; margin-top: 34px; }
+        .text-link { align-items: center; color: var(--deep); display: inline-flex; font-size: .86rem; font-weight: 700; gap: 8px; }
+        .text-link svg { transition: transform .2s ease; }
+        .text-link:hover svg { transform: translateX(4px); }
+        .hero-media { min-height: 570px; position: relative; }
+        .hero-media img { border-radius: var(--radius-lg); height: 570px; object-fit: cover; width: 100%; }
+        .hero-note { align-items: center; background: var(--white); border-radius: 14px; bottom: 28px; box-shadow: var(--shadow); display: flex; gap: 13px; left: -28px; padding: 17px 20px; position: absolute; }
+        .note-mark { align-items: center; background: var(--sage); border-radius: 50%; color: var(--deep); display: flex; height: 38px; justify-content: center; width: 38px; }
+        .hero-note strong { color: var(--deep-2); display: block; font-family: 'Playfair Display', Georgia, serif; font-size: 1.02rem; }
+        .hero-note small { color: var(--muted); display: block; font-size: .73rem; margin-top: 2px; }
+
+        .stats { background: var(--deep); color: var(--white); padding: 30px 0; }
+        .stats-grid { display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); text-align: center; }
+        .stat { border-right: 1px solid rgba(255,255,255,.18); }
+        .stat:last-child { border-right: 0; }
+        .stat strong { display: block; font-family: 'Playfair Display', Georgia, serif; font-size: 1.8rem; font-weight: 500; }
+        .stat span { color: #c6d6d0; font-size: .78rem; letter-spacing: .04em; }
+
+        section { padding: 112px 0; }
+        .rooms { background: var(--white); }
+        .rooms-grid { display: grid; gap: 22px; grid-template-columns: repeat(3, 1fr); }
+        .room-card { border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; transition: box-shadow .25s ease, transform .25s ease; }
+        .room-card:hover { box-shadow: var(--shadow); transform: translateY(-5px); }
+        .room-image { height: 225px; overflow: hidden; }
+        .room-image img { height: 100%; object-fit: cover; transition: transform .5s ease; width: 100%; }
+        .room-card:hover .room-image img { transform: scale(1.04); }
+        .room-info { padding: 24px; }
+        .room-info h3 { color: var(--deep-2); font-family: 'Playfair Display', Georgia, serif; font-size: 1.6rem; font-weight: 600; }
+        .room-info p { color: var(--muted); font-size: .9rem; margin: 10px 0 20px; min-height: 48px; }
+        .room-bottom { align-items: end; border-top: 1px solid var(--line); display: flex; justify-content: space-between; padding-top: 17px; }
+        .room-price small { color: var(--muted); display: block; font-size: .7rem; }
+        .room-price strong { color: var(--deep); font-size: 1.25rem; }
+        .room-link { color: var(--accent); font-size: .8rem; font-weight: 700; }
+
+        .experience { background: var(--sage-light); }
+        .experience-grid { align-items: center; display: grid; gap: 70px; grid-template-columns: 1fr 1fr; }
+        .experience-photo { border-radius: var(--radius-lg); height: 520px; object-fit: cover; width: 100%; }
+        .experience-copy h2 { color: var(--deep-2); font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 600; letter-spacing: -.035em; line-height: 1.08; margin: 14px 0 20px; }
+        .experience-copy > p { color: var(--muted); max-width: 470px; }
+        .feature-list { border-top: 1px solid #cddbd2; display: grid; gap: 18px; grid-template-columns: 1fr 1fr; list-style: none; margin-top: 30px; padding-top: 24px; }
+        .feature-list li { color: var(--deep); font-size: .88rem; font-weight: 600; }
+        .feature-list li::before { color: var(--accent); content: '—'; margin-right: 9px; }
+
+        .services { background: var(--white); }
+        .service-grid { display: grid; gap: 18px; grid-template-columns: repeat(4, 1fr); }
+        .service-card { background: var(--cream); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 26px 22px; }
+        .service-icon { align-items: center; background: var(--sage); border-radius: 50%; color: var(--deep); display: flex; height: 44px; justify-content: center; margin-bottom: 20px; width: 44px; }
+        .service-card h3 { color: var(--deep-2); font-family: 'Playfair Display', Georgia, serif; font-size: 1.15rem; }
+        .service-card p { color: var(--muted); font-size: .8rem; margin-top: 7px; }
+
+        .booking { background: var(--deep-2); color: var(--white); }
+        .booking-grid { align-items: start; display: grid; gap: 70px; grid-template-columns: .7fr 1.3fr; }
+        .booking .eyebrow { color: #d8b483; }
+        .booking h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 600; line-height: 1.08; margin: 14px 0 18px; }
+        .booking-intro p { color: #b9cdC5; font-size: .92rem; max-width: 310px; }
+        .booking-details { color: #b9cdc5; display: grid; gap: 14px; list-style: none; margin-top: 32px; }
+        .booking-details li { align-items: center; display: flex; font-size: .82rem; gap: 10px; }
+        .booking-details svg { color: #d8b483; }
+        .booking-form { background: var(--white); border-radius: var(--radius-lg); color: var(--ink); padding: clamp(24px, 4vw, 42px); }
+        .form-grid { display: grid; gap: 20px; grid-template-columns: 1fr 1fr; }
+        .field { display: flex; flex-direction: column; gap: 7px; }
+        .field label { color: var(--deep); font-size: .78rem; font-weight: 700; }
+        .field input, .field select, #chat-input { background: #fbfcfa; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); outline: none; padding: 13px 14px; transition: border-color .2s ease, box-shadow .2s ease; width: 100%; }
+        .field input:focus, .field select:focus, #chat-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(188, 138, 88, .12); }
+        .form-submit { align-items: center; display: flex; gap: 20px; grid-column: 1 / -1; margin-top: 5px; }
+        .primary-button { border: 0; padding: 14px 28px; }
+        #msgReserva { color: #39765b; font-size: .82rem; font-weight: 600; min-height: 22px; }
+
+        .confirmed { background: var(--cream); }
+        .confirmed-grid { align-items: start; display: grid; gap: 70px; grid-template-columns: .7fr 1.3fr; }
+        .confirmed-copy h2 { color: var(--deep-2); font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2rem, 3.5vw, 3rem); line-height: 1.1; margin-top: 13px; }
+        .confirmed-copy p { color: var(--muted); font-size: .9rem; margin-top: 17px; max-width: 300px; }
+        #listaReservas { display: grid; gap: 12px; list-style: none; }
+        #listaReservas li { background: var(--white); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 9px; padding: 16px 18px; }
+        #listaReservas .reserva-nome { color: var(--deep-2); font-weight: 700; }
+        #listaReservas .reserva-quarto { color: var(--accent); font-size: .84rem; font-weight: 700; }
+        #listaReservas .reserva-datas { color: var(--muted); display: block; font-size: .78rem; margin-top: 5px; }
+        .vazio { color: var(--muted); font-size: .88rem; font-style: italic; }
+
+        .chat-section { background: var(--white); }
+        .chat-layout { display: grid; gap: 70px; grid-template-columns: .65fr 1.35fr; }
+        .chat-copy h2 { color: var(--deep-2); font-family: 'Playfair Display', Georgia, serif; font-size: clamp(2rem, 3.5vw, 3rem); line-height: 1.1; margin-top: 13px; }
+        .chat-copy p { color: var(--muted); font-size: .9rem; margin-top: 17px; max-width: 300px; }
+        .chat-wrapper { border: 1px solid var(--line); border-radius: var(--radius-md); display: flex; flex-direction: column; height: 430px; overflow: hidden; }
+        .chat-header { align-items: center; background: var(--deep); color: var(--white); display: flex; font-size: .84rem; font-weight: 700; justify-content: space-between; padding: 17px 20px; }
+        .online { align-items: center; color: #b9d7c3; display: inline-flex; font-size: .7rem; font-weight: 500; gap: 6px; }
+        .online::before { background: #80bb91; border-radius: 50%; content: ''; height: 7px; width: 7px; }
+        #chat-historico { background: #f6f9f6; display: flex; flex: 1; flex-direction: column; gap: 12px; overflow-y: auto; padding: 22px; }
+        .msg { border-radius: 12px; font-size: .86rem; line-height: 1.5; max-width: 78%; padding: 11px 14px; white-space: pre-wrap; }
+        .msg.hospede { align-self: flex-end; background: var(--deep); border-bottom-right-radius: 3px; color: var(--white); }
+        .msg.hotel, .msg.digitando { align-self: flex-start; background: var(--white); border: 1px solid var(--line); border-bottom-left-radius: 3px; color: var(--ink); }
+        .msg.digitando { color: var(--muted); font-style: italic; }
+        .chat-input-area { background: var(--white); border-top: 1px solid var(--line); display: flex; gap: 10px; padding: 14px; }
+        #chat-input { padding: 11px 13px; }
+        #btnEnviar { background: var(--accent); border: 0; border-radius: 8px; color: var(--white); font-size: .82rem; font-weight: 700; padding: 0 20px; transition: background .2s ease; }
+        #btnEnviar:hover { background: #9f7041; }
+
+        footer { background: var(--deep-2); color: #b9cdc5; padding: 58px 0 26px; }
+        .footer-grid { display: grid; gap: 50px; grid-template-columns: 1.25fr 1fr 1fr 1fr; padding-bottom: 48px; }
+        .footer-brand .brand-name { color: var(--white); }
+        .footer-brand .brand-tagline { color: #9eb4ac; }
+        .footer-brand p { font-size: .82rem; margin-top: 18px; max-width: 250px; }
+        .footer-column h3 { color: var(--white); font-size: .8rem; letter-spacing: .08em; margin-bottom: 16px; text-transform: uppercase; }
+        .footer-column a, .footer-column p { display: block; font-size: .8rem; margin-bottom: 9px; }
+        .footer-column a:hover { color: #d8b483; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,.12); display: flex; font-size: .72rem; justify-content: space-between; padding-top: 22px; }
+
+        @media (max-width: 900px) {
+            .main-nav { gap: 16px; }
+            .hero-grid, .experience-grid, .booking-grid, .confirmed-grid, .chat-layout { gap: 42px; }
+            .service-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 700px) {
+            .container { width: min(100% - 32px, 560px); }
+            .nav-wrap { height: 74px; }
+            .menu-toggle { display: block; }
+            .main-nav { background: var(--cream); border-bottom: 1px solid var(--line); display: none; flex-direction: column; left: 0; padding: 24px; position: absolute; right: 0; top: 74px; }
+            .main-nav.is-open { display: flex; }
+            .nav-cta { width: 100%; }
+            .hero { padding: 44px 0 60px; }
+            .hero-grid, .experience-grid, .booking-grid, .confirmed-grid, .chat-layout { grid-template-columns: 1fr; }
+            .hero-media { min-height: 390px; }
+            .hero-media img { height: 390px; }
+            .hero-note { bottom: 18px; left: 14px; }
+            section { padding: 76px 0; }
+            .rooms-grid { grid-template-columns: 1fr; }
+            .room-image { height: 240px; }
+            .experience-photo { height: 390px; order: 2; }
+            .feature-list { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-submit { align-items: stretch; flex-direction: column; }
+            .primary-button { width: 100%; }
+            .footer-grid { gap: 32px 24px; grid-template-columns: 1fr 1fr; }
+            .footer-brand { grid-column: 1 / -1; }
+            .footer-bottom { flex-direction: column; gap: 8px; }
+        }
+        @media (max-width: 430px) {
+            .brand-name { font-size: .95rem; }
+            .brand-tagline { font-size: .55rem; }
+            .brand img { height: 40px; width: 40px; }
+            .stats-grid { gap: 10px; }
+            .stat strong { font-size: 1.35rem; }
+            .stat span { font-size: .65rem; }
+            .service-grid { grid-template-columns: 1fr; }
+            .chat-input-area { flex-direction: column; }
+            #btnEnviar { min-height: 42px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-wrap">
+            <a class="brand" href="#inicio" aria-label="Hotel Travesseiro Nervoso, início">
+                <img src="/imagens/logo.png" alt="Logo do Hotel Travesseiro Nervoso">
+                <span class="brand-text">
+                    <span class="brand-name">Travesseiro Nervoso</span>
+                    <span class="brand-tagline">Hospitalidade e descanso</span>
+                </span>
+            </a>
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mainNav">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="main-nav" id="mainNav" aria-label="Navegação principal">
+                <a href="#quartos">Acomodações</a>
+                <a href="#experiencia">Experiência</a>
+                <a href="#servicos">Serviços</a>
+                <a href="#chat">Atendimento</a>
+                <a class="nav-cta" href="#reserva">Reservar estadia</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="inicio">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <span class="eyebrow">Seu tempo, do seu jeito</span>
+                    <h1>Uma pausa que faz bem.</h1>
+                    <p>Um hotel pensado para transformar noites tranquilas em memórias especiais, com conforto, cuidado e a calma que você merece.</p>
+                    <div class="hero-actions">
+                        <a class="hero-cta" href="#reserva">Planeje sua estadia</a>
+                        <a class="text-link" href="#experiencia">Conheça o hotel <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                    </div>
+                </div>
+                <div class="hero-media">
+                    <img src="/imagens/quarto01.jpg" alt="Quarto confortável do Hotel Travesseiro Nervoso">
+                    <div class="hero-note">
+                        <span class="note-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12.5V18h16v-5.5M3 12.5h18M6 12.5V9.8A1.8 1.8 0 0 1 7.8 8h8.4A1.8 1.8 0 0 1 18 9.8v2.7M4 18v2M20 18v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        <span><strong>Conforto em cada detalhe</strong><small>Uma experiência feita para você</small></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="stats">
+            <div class="container stats-grid">
+                <div class="stat"><strong>24h</strong><span>Hospitalidade presente</span></div>
+                <div class="stat"><strong>100%</strong><span>Conforto e tranquilidade</span></div>
+                <div class="stat"><strong>3 opções</strong><span>De acomodações</span></div>
+            </div>
+        </div>
+
+        <section class="rooms" id="quartos">
+            <div class="container">
+                <div class="section-heading"><span class="eyebrow">Acomodações</span><h2>Escolha o seu jeito de descansar.</h2><p>Ambientes acolhedores, detalhes essenciais e uma atmosfera que convida você a desacelerar.</p></div>
+                <div class="rooms-grid">
+                    <article class="room-card"><div class="room-image"><img src="/imagens/quarto01.jpg" alt="Acomodação Standard"></div><div class="room-info"><h3>Standard</h3><p>Praticidade e conforto para noites tranquilas.</p><div class="room-bottom"><span class="room-price"><small>A partir de</small><strong>R$ 400</strong> <small>por noite</small></span><a class="room-link" href="#reserva">Reservar</a></div></div></article>
+                    <article class="room-card"><div class="room-image"><img src="/imagens/quarto02relaxante.jpg" alt="Acomodação Deluxe"></div><div class="room-info"><h3>Deluxe</h3><p>Mais espaço e uma experiência de descanso ainda mais especial.</p><div class="room-bottom"><span class="room-price"><small>A partir de</small><strong>R$ 600</strong> <small>por noite</small></span><a class="room-link" href="#reserva">Reservar</a></div></div></article>
+                    <article class="room-card"><div class="room-image"><img src="/imagens/quarto01.jpg" alt="Suíte de luxo"></div><div class="room-info"><h3>Luxo</h3><p>Elegância, amplitude e cuidado em todos os detalhes.</p><div class="room-bottom"><span class="room-price"><small>A partir de</small><strong>R$ 1.000</strong> <small>por noite</small></span><a class="room-link" href="#reserva">Reservar</a></div></div></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="experience" id="experiencia">
+            <div class="container experience-grid">
+                <img class="experience-photo" src="/imagens/quarto02relaxante.jpg" alt="Ambiente relaxante para descansar no hotel">
+                <div class="experience-copy"><span class="eyebrow">Uma estadia para respirar</span><h2>Relaxar também é uma forma de viajar.</h2><p>Do primeiro café da manhã ao fim do dia, preparamos cada espaço para que sua rotina encontre um novo ritmo: mais leve, silencioso e confortável.</p><ul class="feature-list"><li>Ambientes silenciosos</li><li>Atendimento cuidadoso</li><li>Quartos preparados</li><li>Localização conveniente</li></ul></div>
+            </div>
+        </section>
+
+        <section class="services" id="servicos">
+            <div class="container">
+                <div class="section-heading"><span class="eyebrow">Tudo no seu tempo</span><h2>O hotel oferece mais para a sua estadia.</h2><p>Serviços pensados para tornar sua passagem pelo hotel prática, confortável e completa.</p></div>
+                <div class="service-grid">
+                    <article class="service-card"><span class="service-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18h16M5 18v-6h14v6M7 12V8h10v4M9 8V5h6v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h3>Café da manhã</h3><p>Comece o dia com sabores preparados com cuidado.</p></article>
+                    <article class="service-card"><span class="service-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19h14M7 19v-8M17 19v-8M9 11V7M15 11V7M8 7h8M12 5v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span><h3>Academia</h3><p>Um espaço para manter seu ritmo durante a viagem.</p></article>
+                    <article class="service-card"><span class="service-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18h16M6 18v-4h12v4M8 14V9h8v5M10 9V6h4v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h3>Restaurante</h3><p>Opções para uma refeição tranquila sem sair do hotel.</p></article>
+                    <article class="service-card"><span class="service-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 16h18M5 16v3M19 16v3M6 13c1-3 2.5-4.5 6-4.5s5 1.5 6 4.5M8 13V9M16 13V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span><h3>Piscina</h3><p>Momentos de pausa para renovar as energias.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="booking" id="reserva">
+            <div class="container booking-grid">
+                <div class="booking-intro"><span class="eyebrow">Reserve com tranquilidade</span><h2>Seu próximo descanso começa aqui.</h2><p>Escolha suas datas e deixe o restante com a nossa equipe.</p><ul class="booking-details"><li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.5"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Check-in a partir das 14h</li><li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 10h14v9H5zM8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.5"/></svg>Ambientes preparados para você</li></ul></div>
+                <form class="booking-form" id="formReserva"><div class="form-grid"><div class="field"><label for="campoNome">Nome completo</label><input type="text" id="campoNome" placeholder="Como podemos chamar você?" required></div><div class="field"><label for="campoQuarto">Acomodação</label><select id="campoQuarto" required><option value="Standard">Standard</option><option value="Deluxe">Deluxe</option><option value="Suíte Presidencial">Luxo</option></select></div><div class="field"><label for="campoCheckin">Check-in</label><input type="date" id="campoCheckin" required></div><div class="field"><label for="campoCheckout">Check-out</label><input type="date" id="campoCheckout" required></div><div class="form-submit"><button type="submit" class="primary-button" id="btnReservar">Solicitar reserva</button><div id="msgReserva" aria-live="polite"></div></div></div></form>
+            </div>
+        </section>
+
+        <section class="confirmed" id="confirmadas">
+            <div class="container confirmed-grid"><div class="confirmed-copy"><span class="eyebrow">Acompanhe</span><h2>Reservas confirmadas</h2><p>Consulte aqui as estadias registradas em nosso sistema.</p></div><ul id="listaReservas"><li class="vazio">Carregando reservas...</li></ul></div>
+        </section>
+
+        <section class="chat-section" id="chat">
+            <div class="container chat-layout"><div class="chat-copy"><span class="eyebrow">Atendimento</span><h2>Estamos aqui para ajudar.</h2><p>Converse com nosso atendente virtual para tirar dúvidas sobre quartos, serviços e sua estadia.</p></div><div class="chat-wrapper"><div class="chat-header"><span>Atendimento do hotel</span><span class="online">Online</span></div><div id="chat-historico"></div><div class="chat-input-area"><input type="text" id="chat-input" placeholder="Digite sua mensagem..." autocomplete="off"><button id="btnEnviar" type="button">Enviar</button></div></div></div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container"><div class="footer-grid"><div class="footer-brand"><a class="brand" href="#inicio"><img src="/imagens/logo.png" alt="Logo do Hotel Travesseiro Nervoso"><span class="brand-text"><span class="brand-name">Travesseiro Nervoso</span><span class="brand-tagline">Hospitalidade e descanso</span></span></a><p>Um lugar para desacelerar, se cuidar e aproveitar o melhor do seu tempo.</p></div><div class="footer-column"><h3>Hotel</h3><a href="#quartos">Acomodações</a><a href="#experiencia">Nossa experiência</a><a href="#servicos">Serviços</a></div><div class="footer-column"><h3>Atendimento</h3><a href="#reserva">Reservas</a><a href="#chat">Fale conosco</a><a href="#confirmadas">Minhas reservas</a></div><div class="footer-column"><h3>Informações</h3><p>Atendimento todos os dias</p><p>Check-in a partir das 14h</p><p>Hotel Travesseiro Nervoso</p></div></div><div class="footer-bottom"><span>© 2026 Hotel Travesseiro Nervoso</span><span>Conforto em cada detalhe.</span></div></div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const mainNav = document.getElementById('mainNav');
+        const formReserva = document.getElementById('formReserva');
+        const campoNome = document.getElementById('campoNome');
+        const campoQuarto = document.getElementById('campoQuarto');
+        const campoCheckin = document.getElementById('campoCheckin');
+        const campoCheckout = document.getElementById('campoCheckout');
+        const msgReserva = document.getElementById('msgReserva');
+        const listaReservas = document.getElementById('listaReservas');
+        const chatHistorico = document.getElementById('chat-historico');
+        const chatInput = document.getElementById('chat-input');
+        const btnEnviar = document.getElementById('btnEnviar');
+
+        menuToggle.addEventListener('click', function () {
+            const aberto = mainNav.classList.toggle('is-open');
+            menuToggle.setAttribute('aria-expanded', String(aberto));
+            document.body.classList.toggle('menu-open', aberto);
+        });
+
+        mainNav.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', function () {
+                mainNav.classList.remove('is-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                document.body.classList.remove('menu-open');
+            });
+        });
+
+        function markdownParaHtml(texto) {
+            if (!texto) return '';
+            let html = texto.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            html = html.split('\n').map(function (linha) {
+                linha = linha.replace(/^#{1,6}\s+(.*)$/, '<strong>$1</strong>');
+                return linha.replace(/^\s*[-*]\s+(.*)$/, '• $1');
+            }).join('<br>');
+            return html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                .replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>')
+                .replace(/`([^`]+)`/g, '<code>$1</code>');
+        }
+
+        function criarMensagem(texto, tipo) {
+            const mensagem = document.createElement('p');
+            mensagem.className = 'msg ' + tipo;
+            if (tipo === 'hotel') {
+                mensagem.innerHTML = markdownParaHtml(texto);
+            } else {
+                mensagem.textContent = texto;
+            }
+            chatHistorico.appendChild(mensagem);
+            chatHistorico.scrollTop = chatHistorico.scrollHeight;
+            return mensagem;
+        }
+
+        async function enviarParaChat() {
+            const texto = chatInput.value.trim();
+            if (!texto) return;
+            criarMensagem(texto, 'hospede');
+            chatInput.value = '';
+            chatInput.focus();
+            const digitando = criarMensagem('Aguarde um momento...', 'digitando');
+            try {
+                const resposta = await fetch('/agente', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pergunta: texto }) });
+                if (!resposta.ok) throw new Error('Falha no atendimento');
+                const dados = await resposta.json();
+                digitando.remove();
+                criarMensagem(dados.resposta || 'Não consegui processar sua mensagem. Tente novamente.', 'hotel');
+            } catch (erro) {
+                digitando.remove();
+                criarMensagem('Não foi possível conectar ao atendimento agora. Tente novamente em instantes.', 'hotel');
+            }
+        }
+
+        btnEnviar.addEventListener('click', enviarParaChat);
+        chatInput.addEventListener('keydown', function (evento) {
+            if (evento.key === 'Enter') { evento.preventDefault(); enviarParaChat(); }
+        });
+        criarMensagem('Olá. Como posso ajudar com a sua estadia?', 'hotel');
+
+        function formatarData(data) {
+            if (!data) return '-';
+            const partes = String(data).split('-');
+            return partes.length === 3 ? partes[2] + '/' + partes[1] + '/' + partes[0] : data;
+        }
+
+        function renderizarReservas(reservas) {
+            listaReservas.innerHTML = '';
+            if (!reservas || reservas.length === 0) {
+                const vazio = document.createElement('li');
+                vazio.className = 'vazio';
+                vazio.textContent = 'Nenhuma reserva confirmada ainda.';
+                listaReservas.appendChild(vazio);
+                return;
+            }
+            reservas.forEach(function (reserva) {
+                const item = document.createElement('li');
+                const nome = document.createElement('span');
+                nome.className = 'reserva-nome';
+                nome.textContent = reserva.nome;
+                const quarto = document.createElement('span');
+                quarto.className = 'reserva-quarto';
+                quarto.textContent = ' — ' + reserva.quarto;
+                const datas = document.createElement('span');
+                datas.className = 'reserva-datas';
+                datas.textContent = 'Check-in: ' + formatarData(reserva.checkin) + ' | Check-out: ' + formatarData(reserva.checkout);
+                item.append(nome, quarto, datas);
+                listaReservas.appendChild(item);
+            });
+        }
+
+        async function carregarReservas() {
+            try {
+                const resposta = await fetch('/reservas');
+                if (!resposta.ok) throw new Error('Falha ao carregar reservas');
+                renderizarReservas(await resposta.json());
+            } catch (erro) {
+                listaReservas.innerHTML = '<li class="vazio">Não foi possível carregar as reservas.</li>';
+            }
+        }
+
+        formReserva.addEventListener('submit', async function (evento) {
+            evento.preventDefault();
+            msgReserva.textContent = 'Enviando sua solicitação...';
+            msgReserva.style.color = '#66726e';
+            const dadosReserva = { nome: campoNome.value, quarto: campoQuarto.value, checkin: campoCheckin.value, checkout: campoCheckout.value };
+            try {
+                const resposta = await fetch('/reservas', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dadosReserva) });
+                if (!resposta.ok) throw new Error('Falha ao reservar');
+                const dados = await resposta.json();
+                msgReserva.textContent = dados.mensagem || 'Reserva realizada com sucesso.';
+                msgReserva.style.color = '#39765b';
+                formReserva.reset();
+                carregarReservas();
+            } catch (erro) {
+                msgReserva.textContent = 'Não foi possível concluir a reserva. Tente novamente.';
+                msgReserva.style.color = '#a64e46';
+            }
+        });
+
+        carregarReservas();
+    </script>
+</body>
+</html>
